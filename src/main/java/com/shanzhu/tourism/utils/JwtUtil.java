@@ -12,9 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * JWT工具类
- *
- * 
- * @date: 2023-11-10
  */
 public class JwtUtil {
 

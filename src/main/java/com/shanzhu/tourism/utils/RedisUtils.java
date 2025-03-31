@@ -11,9 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * redis工具类
- *
- * 
- * @date: 2023-11-10
  */
 @Component
 public class RedisUtils {
