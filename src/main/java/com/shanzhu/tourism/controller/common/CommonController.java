@@ -1,6 +1,8 @@
 package com.shanzhu.tourism.controller.common;
 
 import com.shanzhu.tourism.domain.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,12 +16,14 @@ import java.io.IOException;
 @Controller
 @ResponseBody
 @RequestMapping("common")
+@Api(tags = "通用接口")
 public class CommonController {
 
 
     /**
      * 错误转发地址
      */
+    @ApiOperation("错误转发地址")
     @GetMapping("/error/{code}/{msg}")
     public Result error(@PathVariable("code") Integer code, @PathVariable("msg") String msg) {
         return Result.alert(code, msg);
@@ -28,6 +32,7 @@ public class CommonController {
     /**
      * 上传图片
      */
+    @ApiOperation("上传图片")
     @PostMapping("uploadImg")
     public Result uploadImg(@RequestParam("file") MultipartFile img) {
         if (img.isEmpty()) {
@@ -62,6 +67,7 @@ public class CommonController {
     /**
      * 上传视频
      */
+    @ApiOperation("上传视频")
     @PostMapping("uploadVideo")
     public Result uploadVideo(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -91,6 +97,7 @@ public class CommonController {
     /**
      * 上传文件
      */
+    @ApiOperation("上传文件")
     @PostMapping("uploadFile")
     public Result uploadFile(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {

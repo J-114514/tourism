@@ -12,6 +12,8 @@ import com.shanzhu.tourism.service.UserService;
 import com.shanzhu.tourism.utils.JwtUtil;
 import com.shanzhu.tourism.utils.PasswordUtils;
 import com.shanzhu.tourism.utils.RedisUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,7 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("login")
+@Api(tags = "登陆相关接口")
 public class LoginController {
 
     @Resource
@@ -39,6 +42,8 @@ public class LoginController {
     @Resource
     private SysAttractionOrderService sysAttractionOrderService;
 
+    /** 登陆 */
+    @ApiOperation("登陆")
     @PostMapping()
     public Result login(HttpServletRequest request, @RequestBody JSONObject jsonObject) {
         String username = jsonObject.getString("loginAccount");
@@ -64,11 +69,15 @@ public class LoginController {
         return Result.success(json);
     }
 
+    /** 退出登陆 */
+    @ApiOperation("退出登陆")
     @GetMapping("logout")
     public Result logout() {
         return Result.success();
     }
 
+    /** 获取管理数据 */
+    @ApiOperation("获取管理数据")
     @GetMapping("getManageData")
     public Result getManageData() {
         JSONObject jsonObject = new JSONObject();

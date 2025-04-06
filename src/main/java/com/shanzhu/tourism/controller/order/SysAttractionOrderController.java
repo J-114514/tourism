@@ -11,6 +11,8 @@ import com.shanzhu.tourism.service.SysAttractionOrderService;
 import com.shanzhu.tourism.service.SysAttractionsService;
 import com.shanzhu.tourism.service.UserService;
 import com.shanzhu.tourism.utils.TokenUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("order")
+@Api(tags = "景点预约相关接口")
 public class SysAttractionOrderController {
 
     @Resource
@@ -34,6 +37,7 @@ public class SysAttractionOrderController {
     private SysAttractionsService sysAttractionsService;
 
     /** 分页获取景点预约 */
+    @ApiOperation("分页获取景点预约")
     @PostMapping("getSysAttractionOrderPage")
     public Result getSysAttractionOrderPage(@RequestBody SysAttractionOrder sysAttractionOrder) {
         Page<SysAttractionOrder> page = new Page<>(sysAttractionOrder.getPageNumber(),sysAttractionOrder.getPageSize());
@@ -57,6 +61,7 @@ public class SysAttractionOrderController {
     }
 
     /** 根据id获取景点预约 */
+    @ApiOperation("根据id获取景点预约")
     @GetMapping("getSysAttractionOrderById")
     public Result getSysAttractionOrderById(@RequestParam("id")String id) {
         SysAttractionOrder sysAttractionOrder = sysAttractionOrderService.getById(id);
@@ -64,6 +69,7 @@ public class SysAttractionOrderController {
     }
 
     /** 保存景点预约 */
+    @ApiOperation("保存景点预约")
     @PostMapping("saveSysAttractionOrder")
     @Transactional(rollbackFor = Exception.class)
     public Result saveSysAttractionOrder(@RequestBody SysAttractionOrder sysAttractionOrder) {
@@ -88,6 +94,7 @@ public class SysAttractionOrderController {
     }
 
     /** 编辑景点预约 */
+    @ApiOperation("编辑景点预约")
     @PostMapping("editSysAttractionOrder")
     public Result editSysAttractionOrder(@RequestBody SysAttractionOrder sysAttractionOrder) {
         boolean save = sysAttractionOrderService.updateById(sysAttractionOrder);
@@ -99,6 +106,7 @@ public class SysAttractionOrderController {
     }
 
     /** 删除景点预约 */
+    @ApiOperation("删除景点预约")
     @GetMapping("removeSysAttractionOrder")
     public Result removeSysAttractionOrder(@RequestParam("ids")String ids) {
         if (StringUtils.isNotBlank(ids)) {

@@ -8,6 +8,8 @@ import com.shanzhu.tourism.domain.SysLine;
 import com.shanzhu.tourism.enums.ResultCode;
 import com.shanzhu.tourism.service.SysFavorService;
 import com.shanzhu.tourism.service.SysLineService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("line")
+@Api(tags = "旅游线路相关接口")
 public class SysLineController {
 
     @Resource
@@ -30,6 +33,7 @@ public class SysLineController {
     private SysFavorService sysFavorService;
 
     /** 分页获取旅游线路 */
+    @ApiOperation("分页获取旅游线路")
     @PostMapping("getSysLinePage")
     public Result getSysLinePage(@RequestBody SysLine sysLine) {
         Page<SysLine> page = new Page<>(sysLine.getPageNumber(),sysLine.getPageSize());
@@ -44,6 +48,8 @@ public class SysLineController {
         return Result.success(sysLinePage);
     }
 
+    /** 获取首页旅游线路 */
+    @ApiOperation("获取首页旅游线路")
     @GetMapping("/getSysLineIndex")
     public Result getSysLineIndex() {
         QueryWrapper<SysLine> queryWrapper = new QueryWrapper<>();
@@ -53,13 +59,15 @@ public class SysLineController {
     }
 
     /** 根据id获取旅游线路 */
+    @ApiOperation("根据id获取旅游线路")
     @GetMapping("getSysLineById")
     public Result getSysLineById(@RequestParam("id")String id) {
         SysLine sysLine = sysLineService.getById(id);
         return Result.success(sysLine);
     }
 
-    /** 保存旅游线路 */
+    /** 添加旅游线路 */
+    @ApiOperation("添加旅游线路")
     @PostMapping("saveSysLine")
     public Result saveSysLine(@RequestBody SysLine sysLine) {
         boolean save = sysLineService.save(sysLine);
@@ -71,6 +79,7 @@ public class SysLineController {
     }
 
     /** 编辑旅游线路 */
+    @ApiOperation("编辑旅游线路")
     @PostMapping("editSysLine")
     public Result editSysLine(@RequestBody SysLine sysLine) {
         boolean save = sysLineService.updateById(sysLine);
@@ -82,6 +91,7 @@ public class SysLineController {
     }
 
     /** 删除旅游线路 */
+    @ApiOperation("删除旅游线路")
     @GetMapping("removeSysLine")
     @Transactional(rollbackFor = Exception.class)
     public Result removeSysLine(@RequestParam("ids")String ids) {

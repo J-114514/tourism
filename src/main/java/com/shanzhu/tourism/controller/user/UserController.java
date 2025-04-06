@@ -11,6 +11,8 @@ import com.shanzhu.tourism.service.*;
 import com.shanzhu.tourism.utils.PasswordUtils;
 import com.shanzhu.tourism.utils.RedisUtils;
 import com.shanzhu.tourism.utils.TokenUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -30,6 +32,7 @@ import java.util.*;
 @Controller
 @ResponseBody
 @RequestMapping("/user")
+@Api(tags = "用户相关接口")
 public class UserController {
 
     @Autowired
@@ -46,12 +49,15 @@ public class UserController {
     private SysHotelOrderService sysHotelOrderService;
 
     /** 分页查询用户 */
+    @ApiOperation("分页查询用户")
     @PostMapping("getUserPage")
     public Result getUserPage(@RequestBody User user) {
         Page<User> page = userService.getUserPage(user);
         return Result.success(page);
     }
 
+    /** 查询用户总数 */
+    @ApiOperation("查询用户总数")
     @GetMapping("getUserCount")
     public Result getUserCount() {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -61,6 +67,7 @@ public class UserController {
     }
 
     /** 根据id查询用户 */
+    @ApiOperation("根据id查询用户")
     @GetMapping("getUserById")
     public Result getUserById(@RequestParam("id") String id) {
         User user = userService.getById(id);
@@ -68,6 +75,7 @@ public class UserController {
     }
 
     /** 新增用户 */
+    @ApiOperation("新增用户")
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("saveUser")
     public Result saveUser(@RequestBody User user) {
@@ -91,6 +99,7 @@ public class UserController {
     }
 
     /** 编辑用户 */
+    @ApiOperation("编辑用户")
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("editUser")
     public Result editUser(@RequestBody User user) {
@@ -108,6 +117,7 @@ public class UserController {
     }
 
     /** 校验用户 */
+    @ApiOperation("校验用户")
     public boolean checkAccount(User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getLoginAccount,user.getLoginAccount());
@@ -116,6 +126,7 @@ public class UserController {
     }
 
     /** 删除用户 */
+    @ApiOperation("删除用户")
     @Transactional(rollbackFor = Exception.class)
     @GetMapping("removeUser")
     public Result removeUser(@RequestParam("ids")String ids) {
@@ -144,6 +155,7 @@ public class UserController {
     }
 
     /** 重置密码 */
+    @ApiOperation("重置密码")
     @PostMapping("resetPassword")
     public Result resetPassword(@RequestBody JSONObject json) {
         String id = json.getString("id");
@@ -167,6 +179,7 @@ public class UserController {
     }
 
     /** 获取登陆用户信息 */
+    @ApiOperation("获取登陆用户信息")
     @GetMapping("getUserInfo")
     public Result getUserInfo() {
         String id = TokenUtils.getUserIdByToken();
@@ -175,6 +188,7 @@ public class UserController {
     }
 
     /** 修改个人信息 */
+    @ApiOperation("修改个人信息")
     @PostMapping("setUserInfo")
     public Result setUserInfo(@RequestBody User user) {
         String id = TokenUtils.getUserIdByToken();
@@ -184,6 +198,7 @@ public class UserController {
     }
 
     /** 修改个人头像 */
+    @ApiOperation("修改个人头像")
     @PostMapping("setUserAvatar/{id}")
     public Result setUserAvatar(@PathVariable("id") String id, @RequestParam("file") MultipartFile avatar) {
         if(StringUtils.isBlank(id)){
@@ -228,6 +243,8 @@ public class UserController {
         }
     }
 
+    /** 修改密码 */
+    @ApiOperation("修改密码")
     @PostMapping("changePassword")
     public Result changePassword(@RequestBody JSONObject json) {
         String id = json.getString("id");
@@ -252,6 +269,8 @@ public class UserController {
         }
     }
 
+    /** 发送邮箱验证码 */
+    @ApiOperation("发送邮箱验证码")
     @GetMapping("getEmailReg")
     public Result getEmailReg(@RequestParam("email") String email) {
         String str="abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
@@ -284,6 +303,8 @@ public class UserController {
         return Result.success();
     }
 
+    /** 忘记密码 */
+    @ApiOperation("忘记密码")
     @PostMapping("forgetPassword")
     public Result forgetPassword(@RequestBody JSONObject jsonObject) {
         String loginAccount = jsonObject.getString("loginAccount");

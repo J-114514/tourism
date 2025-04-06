@@ -11,6 +11,8 @@ import com.shanzhu.tourism.service.SysAttractionOrderService;
 import com.shanzhu.tourism.service.SysAttractionsService;
 import com.shanzhu.tourism.service.SysCommentsService;
 import com.shanzhu.tourism.utils.JwtUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("attractions")
+@Api(tags = "景点相关接口")
 public class SysAttractionsController {
 
     @Resource
@@ -37,6 +40,7 @@ public class SysAttractionsController {
     private SysCommentsService sysCommentsService;
 
     /** 分页获取景点 */
+    @ApiOperation("分页获取景点")
     @PostMapping("getSysAttractionsPage")
     public Result getSysAttractionsPage(@RequestBody SysAttractions sysAttractions) {
         Page<SysAttractions> page = new Page<>(sysAttractions.getPageNumber(),sysAttractions.getPageSize());
@@ -49,12 +53,14 @@ public class SysAttractionsController {
         return Result.success(sysAttractionsPage);
     }
 
+    @ApiOperation("获取景点列表")
     @GetMapping("getSysAttractionsList")
     public Result getSysAttractionsList() {
         List<SysAttractions> attractionsList = sysAttractionsService.list();
         return Result.success(attractionsList);
     }
 
+    @ApiOperation("上架或下架景点")
     @GetMapping("getSysAttractionsIndex")
     public Result getSysAttractionsIndex(HttpServletRequest request) {
         String userId = JwtUtil.getUserIdByToken(request);
@@ -62,13 +68,15 @@ public class SysAttractionsController {
     }
 
     /** 根据id获取景点 */
+    @ApiOperation("根据id获取景点")
     @GetMapping("getSysAttractionsById")
     public Result getSysAttractionsById(@RequestParam("id")String id) {
         SysAttractions sysAttractions = sysAttractionsService.getById(id);
         return Result.success(sysAttractions);
     }
 
-    /** 保存景点 */
+    /** 添加景点 */
+    @ApiOperation("添加景点")
     @PostMapping("saveSysAttractions")
     public Result saveSysAttractions(@RequestBody SysAttractions sysAttractions) {
         boolean save = sysAttractionsService.save(sysAttractions);
@@ -80,6 +88,7 @@ public class SysAttractionsController {
     }
 
     /** 编辑景点 */
+    @ApiOperation("编辑景点")
     @PostMapping("editSysAttractions")
     public Result editSysAttractions(@RequestBody SysAttractions sysAttractions) {
         boolean save = sysAttractionsService.updateById(sysAttractions);
@@ -91,6 +100,7 @@ public class SysAttractionsController {
     }
 
     /** 删除景点 */
+    @ApiOperation("删除景点")
     @GetMapping("removeSysAttractions")
     @Transactional(rollbackFor = Exception.class)
     public Result removeSysAttractions(@RequestParam("ids")String ids) {

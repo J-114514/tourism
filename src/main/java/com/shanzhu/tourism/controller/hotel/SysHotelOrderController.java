@@ -11,6 +11,7 @@ import com.shanzhu.tourism.service.SysHotelItemService;
 import com.shanzhu.tourism.service.SysHotelOrderService;
 import com.shanzhu.tourism.service.SysHotelService;
 import com.shanzhu.tourism.utils.TokenUtils;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("order")
+@Api(tags = "酒店预约管理相关接口")
 public class SysHotelOrderController {
 
     @Resource

@@ -12,9 +12,6 @@ import java.util.stream.IntStream;
 
 /**
  * 推荐算法
- *
- * 
- * @date: 2024-07-25
  */
 public class CoreMath {
 

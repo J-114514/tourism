@@ -9,6 +9,8 @@ import com.shanzhu.tourism.enums.ResultCode;
 import com.shanzhu.tourism.service.SysFavorService;
 import com.shanzhu.tourism.service.SysLineService;
 import com.shanzhu.tourism.utils.TokenUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("favor")
+@Api(tags = "收藏相关接口")
 public class SysFavorController {
 
     @Resource
@@ -29,6 +32,7 @@ public class SysFavorController {
     private SysLineService sysLineService;
 
     /** 分页获取收藏 */
+    @ApiOperation("分页获取收藏")
     @PostMapping("getSysFavorPage")
     public Result getSysFavorPage(@RequestBody SysFavor sysFavor) {
         Page<SysFavor> page = new Page<>(sysFavor.getPageNumber(),sysFavor.getPageSize());
@@ -43,6 +47,7 @@ public class SysFavorController {
         return Result.success(sysFavorPage);
     }
 
+    @ApiOperation("获取系统偏好")
     @GetMapping("getSysFavor")
     public Result getSysFavor(@RequestParam("id")String id) {
         String userIdByToken = TokenUtils.getUserIdByToken();
@@ -58,6 +63,7 @@ public class SysFavorController {
     }
 
     /** 根据id获取收藏 */
+    @ApiOperation("根据id获取收藏")
     @GetMapping("getSysFavorById")
     public Result getSysFavorById(@RequestParam("id")String id) {
         SysFavor sysFavor = sysFavorService.getById(id);
@@ -65,6 +71,7 @@ public class SysFavorController {
     }
 
     /** 保存收藏 */
+    @ApiOperation("保存收藏")
     @PostMapping("saveSysFavor")
     public Result saveSysFavor(@RequestBody SysFavor sysFavor) {
         sysFavor.setUserId(TokenUtils.getUserIdByToken());
@@ -81,6 +88,7 @@ public class SysFavorController {
     }
 
     /** 编辑收藏 */
+    @ApiOperation("编辑收藏")
     @PostMapping("editSysFavor")
     public Result editSysFavor(@RequestBody SysFavor sysFavor) {
         boolean save = sysFavorService.updateById(sysFavor);
@@ -92,6 +100,7 @@ public class SysFavorController {
     }
 
     /** 删除收藏 */
+    @ApiOperation("删除收藏")
     @GetMapping("removeSysFavor")
     public Result removeSysFavor(@RequestParam("ids")String ids) {
         if (StringUtils.isNotBlank(ids)) {

@@ -6,6 +6,8 @@ import com.shanzhu.tourism.domain.Result;
 import com.shanzhu.tourism.domain.SysRotations;
 import com.shanzhu.tourism.enums.ResultCode;
 import com.shanzhu.tourism.service.SysRotationsService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,12 +22,14 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("rotations")
+@Api(tags = "轮播图相关接口")
 public class SysRotationsController {
 
     @Autowired
     private SysRotationsService sysRotationsService;
 
     /** 分页获取轮播图 */
+    @ApiOperation("分页获取轮播图")
     @PostMapping("getSysRotationsPage")
     public Result getSysRotationsPage(@RequestBody SysRotations sysRotations) {
         Page<SysRotations> page = new Page<>(sysRotations.getPageNumber(),sysRotations.getPageSize());
@@ -34,6 +38,8 @@ public class SysRotationsController {
         return Result.success(sysRotationsPage);
     }
 
+    /** 获取轮播图列表 */
+    @ApiOperation("获取轮播图列表")
     @GetMapping("getSysRotationsList")
     public Result getSysRotationsList() {
         List<SysRotations> rotationsList = sysRotationsService.list();
@@ -41,6 +47,7 @@ public class SysRotationsController {
     }
 
     /** 根据id获取轮播图 */
+    @ApiOperation("根据id获取轮播图")
     @GetMapping("getSysRotationsById")
     public Result getSysRotationsById(@RequestParam("id")String id) {
         SysRotations sysRotations = sysRotationsService.getById(id);
@@ -48,6 +55,7 @@ public class SysRotationsController {
     }
 
     /** 保存轮播图 */
+    @ApiOperation("保存轮播图")
     @PostMapping("saveSysRotations")
     public Result saveSysRotations(@RequestBody SysRotations sysRotations) {
         boolean save = sysRotationsService.save(sysRotations);
@@ -59,6 +67,7 @@ public class SysRotationsController {
     }
 
     /** 编辑轮播图 */
+    @ApiOperation("编辑轮播图")
     @PostMapping("editSysRotations")
     public Result editSysRotations(@RequestBody SysRotations sysRotations) {
         boolean save = sysRotationsService.updateById(sysRotations);
@@ -70,6 +79,7 @@ public class SysRotationsController {
     }
 
     /** 删除轮播图 */
+    @ApiOperation("删除轮播图")
     @GetMapping("removeSysRotations")
     public Result removeSysRotations(@RequestParam("ids")String ids) {
         if (StringUtils.isNotBlank(ids)) {

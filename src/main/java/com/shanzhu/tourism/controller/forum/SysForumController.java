@@ -6,6 +6,8 @@ import com.shanzhu.tourism.domain.Result;
 import com.shanzhu.tourism.domain.SysForum;
 import com.shanzhu.tourism.enums.ResultCode;
 import com.shanzhu.tourism.service.SysForumService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +20,14 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("forum")
+@Api(value = "SysForumController",tags = "旅游资讯相关接口")
 public class SysForumController {
 
     @Resource
     private SysForumService sysForumService;
 
     /** 分页获取资讯 */
+    @ApiOperation("分页获取资讯")
     @PostMapping("getSysForumPage")
     public Result getSysForumPage(@RequestBody SysForum sysForum) {
         Page<SysForum> page = new Page<>(sysForum.getPageNumber(),sysForum.getPageSize());
@@ -35,6 +39,7 @@ public class SysForumController {
         return Result.success(sysForumPage);
     }
 
+    @ApiOperation("根据id获取资讯")
     /** 根据id获取资讯 */
     @GetMapping("getSysForumById")
     public Result getSysForumById(@RequestParam("id")String id) {
@@ -42,7 +47,8 @@ public class SysForumController {
         return Result.success(sysForum);
     }
 
-    /** 保存资讯 */
+    /** 添加资讯 */
+    @ApiOperation("添加资讯")
     @PostMapping("saveSysForum")
     public Result saveSysForum(@RequestBody SysForum sysForum) {
         boolean save = sysForumService.save(sysForum);
@@ -53,6 +59,7 @@ public class SysForumController {
         }
     }
 
+    @ApiOperation("编辑资讯")
     /** 编辑资讯 */
     @PostMapping("editSysForum")
     public Result editSysForum(@RequestBody SysForum sysForum) {
@@ -65,6 +72,7 @@ public class SysForumController {
     }
 
     /** 删除资讯 */
+    @ApiOperation("删除资讯")
     @GetMapping("removeSysForum")
     public Result removeSysForum(@RequestParam("ids")String ids) {
         if (StringUtils.isNotBlank(ids)) {

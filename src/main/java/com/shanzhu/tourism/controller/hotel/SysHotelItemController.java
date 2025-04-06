@@ -8,6 +8,8 @@ import com.shanzhu.tourism.domain.SysHotelOrder;
 import com.shanzhu.tourism.enums.ResultCode;
 import com.shanzhu.tourism.service.SysHotelItemService;
 import com.shanzhu.tourism.service.SysHotelOrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("item")
+@Api(tags = "房型管理相关接口")
 public class SysHotelItemController {
 
     @Resource
@@ -30,6 +33,7 @@ public class SysHotelItemController {
     private SysHotelOrderService sysHotelOrderService;
 
     /** 分页获取房型 */
+    @ApiOperation("分页获取房型")
     @PostMapping("getSysHotelItemPage")
     public Result getSysHotelItemPage(@RequestBody SysHotelItem sysHotelItem) {
         Page<SysHotelItem> page = new Page<>(sysHotelItem.getPageNumber(),sysHotelItem.getPageSize());
@@ -41,6 +45,8 @@ public class SysHotelItemController {
         return Result.success(sysHotelItemPage);
     }
 
+    /** 获取房型列表*/
+    @ApiOperation("获取房型列表")
     @GetMapping("getSysHotelItemList")
     public Result getSysHotelItemList(@RequestParam("id") String id) {
         QueryWrapper<SysHotelItem> queryWrapper = new QueryWrapper<>();
@@ -50,13 +56,15 @@ public class SysHotelItemController {
     }
 
     /** 根据id获取房型 */
+    @ApiOperation("根据id获取房型")
     @GetMapping("getSysHotelItemById")
     public Result getSysHotelItemById(@RequestParam("id")String id) {
         SysHotelItem sysHotelItem = sysHotelItemService.getById(id);
         return Result.success(sysHotelItem);
     }
 
-    /** 保存房型 */
+    /** 添加房型 */
+    @ApiOperation("添加房型")
     @PostMapping("saveSysHotelItem")
     public Result saveSysHotelItem(@RequestBody SysHotelItem sysHotelItem) {
         boolean save = sysHotelItemService.save(sysHotelItem);
@@ -68,6 +76,7 @@ public class SysHotelItemController {
     }
 
     /** 编辑房型 */
+    @ApiOperation("编辑房型")
     @PostMapping("editSysHotelItem")
     public Result editSysHotelItem(@RequestBody SysHotelItem sysHotelItem) {
         boolean save = sysHotelItemService.updateById(sysHotelItem);
@@ -79,6 +88,7 @@ public class SysHotelItemController {
     }
 
     /** 删除房型 */
+    @ApiOperation("删除房型")
     @GetMapping("removeSysHotelItem")
     @Transactional(rollbackFor = Exception.class)
     public Result removeSysHotelItem(@RequestParam("ids")String ids) {

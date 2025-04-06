@@ -8,6 +8,8 @@ import com.shanzhu.tourism.service.SysHotelItemService;
 import com.shanzhu.tourism.service.SysHotelOrderService;
 import com.shanzhu.tourism.service.SysHotelService;
 import com.shanzhu.tourism.domain.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("hotel")
+@Api(tags = "酒店管理相关接口")
 public class SysHotelController {
 
     @Resource
@@ -33,6 +36,7 @@ public class SysHotelController {
     private SysHotelOrderService sysHotelOrderService;
 
     /** 分页获取酒店 */
+    @ApiOperation("分页获取酒店")
     @PostMapping("getSysHotelPage")
     public Result getSysHotelPage(@RequestBody SysHotel sysHotel) {
         Page<SysHotel> page = new Page<>(sysHotel.getPageNumber(),sysHotel.getPageSize());
@@ -47,13 +51,15 @@ public class SysHotelController {
     }
 
     /** 根据id获取酒店 */
+    @ApiOperation("根据id获取酒店")
     @GetMapping("getSysHotelById")
     public Result getSysHotelById(@RequestParam("id")String id) {
         SysHotel sysHotel = sysHotelService.getById(id);
         return Result.success(sysHotel);
     }
 
-    /** 保存酒店 */
+    /** 添加酒店 */
+    @ApiOperation("添加酒店")
     @PostMapping("saveSysHotel")
     public Result saveSysHotel(@RequestBody SysHotel sysHotel) {
         SysAttractions attractions = sysAttractionsService.getById(sysHotel.getAttractionsId());
@@ -67,6 +73,7 @@ public class SysHotelController {
     }
 
     /** 编辑酒店 */
+    @ApiOperation("编辑酒店")
     @PostMapping("editSysHotel")
     public Result editSysHotel(@RequestBody SysHotel sysHotel) {
         SysAttractions attractions = sysAttractionsService.getById(sysHotel.getAttractionsId());
@@ -80,6 +87,7 @@ public class SysHotelController {
     }
 
     /** 删除酒店 */
+    @ApiOperation("删除酒店")
     @GetMapping("removeSysHotel")
     @Transactional(rollbackFor = Exception.class)
     public Result removeSysHotel(@RequestParam("ids")String ids) {

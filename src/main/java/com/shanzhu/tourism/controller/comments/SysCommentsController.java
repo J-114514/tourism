@@ -10,6 +10,8 @@ import com.shanzhu.tourism.service.SysCommentsService;
 import com.shanzhu.tourism.service.UserService;
 import com.shanzhu.tourism.utils.JwtUtil;
 import com.shanzhu.tourism.utils.TokenUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("comments")
+@Api(tags = "评论相关接口")
 public class SysCommentsController {
 
     @Resource
@@ -30,6 +33,7 @@ public class SysCommentsController {
     private UserService userService;
 
     /** 分页获取评论 */
+    @ApiOperation("分页获取评论")
     @PostMapping("getSysCommentsPage")
     public Result getSysCommentsPage(@RequestBody SysComments sysComments) {
         Page<SysComments> page = new Page<>(sysComments.getPageNumber(),sysComments.getPageSize());
@@ -48,13 +52,15 @@ public class SysCommentsController {
     }
 
     /** 根据id获取评论 */
+    @ApiOperation("根据id获取评论")
     @GetMapping("getSysCommentsById")
     public Result getSysCommentsById(@RequestParam("id")String id) {
         SysComments sysComments = sysCommentsService.getById(id);
         return Result.success(sysComments);
     }
 
-    /** 保存评论 */
+    /** 添加评论 */
+    @ApiOperation("添加评论")
     @PostMapping("saveSysComments")
     public Result saveSysComments(@RequestBody SysComments sysComments) {
         User user = userService.getById(TokenUtils.getUserIdByToken());
@@ -68,6 +74,7 @@ public class SysCommentsController {
     }
 
     /** 编辑评论 */
+    @ApiOperation("编辑评论")
     @PostMapping("editSysComments")
     public Result editSysComments(@RequestBody SysComments sysComments) {
         boolean save = sysCommentsService.updateById(sysComments);
@@ -79,6 +86,7 @@ public class SysCommentsController {
     }
 
     /** 删除评论 */
+    @ApiOperation("删除评论")
     @GetMapping("removeSysComments")
     public Result removeSysComments(@RequestParam("ids")String ids) {
         if (StringUtils.isNotBlank(ids)) {
