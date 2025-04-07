@@ -1,6 +1,6 @@
 package com.shanzhu.tourism.controller.forum;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shanzhu.tourism.domain.Result;
 import com.shanzhu.tourism.domain.SysForum;
@@ -30,6 +30,11 @@ public class SysForumController {
     @ApiOperation("分页获取资讯")
     @PostMapping("getSysForumPage")
     public Result getSysForumPage(@RequestBody SysForum sysForum) {
+        Page<SysForum> page = new Page<>(sysForum.getPageNumber(), sysForum.getPageSize());
+        IPage<SysForum> sysForumPage = sysForumService.page(page, sysForum.getTitle());
+        return Result.success(sysForumPage);
+    }
+    /*public Result getSysForumPage(@RequestBody SysForum sysForum) {
         Page<SysForum> page = new Page<>(sysForum.getPageNumber(),sysForum.getPageSize());
         QueryWrapper<SysForum> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
@@ -37,16 +42,15 @@ public class SysForumController {
                 .orderByDesc(SysForum::getCreateTime);
         Page<SysForum> sysForumPage = sysForumService.page(page, queryWrapper);
         return Result.success(sysForumPage);
-    }
+    }*/
 
-    @ApiOperation("根据id获取资讯")
     /** 根据id获取资讯 */
+    @ApiOperation("根据id获取资讯")
     @GetMapping("getSysForumById")
     public Result getSysForumById(@RequestParam("id")String id) {
         SysForum sysForum = sysForumService.getById(id);
         return Result.success(sysForum);
     }
-
     /** 添加资讯 */
     @ApiOperation("添加资讯")
     @PostMapping("saveSysForum")
@@ -59,26 +63,26 @@ public class SysForumController {
         }
     }
 
+    /** 编辑资讯*/
     @ApiOperation("编辑资讯")
-    /** 编辑资讯 */
     @PostMapping("editSysForum")
     public Result editSysForum(@RequestBody SysForum sysForum) {
-        boolean save = sysForumService.updateById(sysForum);
-        if (save) {
+        boolean update = sysForumService.updateSysForum(sysForum);
+        if (update) {
             return Result.success();
         } else {
             return Result.fail(ResultCode.COMMON_DATA_OPTION_ERROR.getMessage());
         }
     }
 
-    /** 删除资讯 */
+    /** 删除资讯*/
     @ApiOperation("删除资讯")
     @GetMapping("removeSysForum")
     public Result removeSysForum(@RequestParam("ids")String ids) {
         if (StringUtils.isNotBlank(ids)) {
             String[] asList = ids.split(",");
             for (String id : asList) {
-                sysForumService.removeById(id);
+                sysForumService.removeSysForum(id);
             }
             return Result.success();
         } else {
