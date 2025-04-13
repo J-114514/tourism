@@ -13,12 +13,12 @@ public interface SysHotelMapper extends BaseMapper<SysHotel> {
     @Select("SELECT * FROM sys_hotel WHERE id = #{id}")
     SysHotel selectSysHotelById(@Param("id") String id);
 
-    // 添加资讯
+    // 添加酒店
     @Insert("INSERT INTO sys_hotel (id,arrtractions_id,arrtractions,name,address,introduce,image,state,create_by,create_time,update_by,update_time) VALUES (#{id},#{arrtractions_id},#{arrtractions},#{name},#{address},#{introduce},#{image},#{state},#{createBy},NOW(),#{updateTy}, NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertSysHotel(SysHotel sysHotel);
 
-    // 编辑资讯
+    // 编辑酒店
     @Update("UPDATE sys_hotel SET name = #{name}, introduce = #{introduce},image = #{image},state = #{state},update_time = NOW()" +
             "WHERE id = #{id}")
     int updateSysHotelById(SysHotel sysHotel);
