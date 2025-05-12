@@ -66,21 +66,21 @@ public class SysFavorController {
         return Result.success(i);
     }
 
-//    @PostMapping("/offlineLine")
-//    @Transactional(rollbackFor = Exception.class)
-//    public Result offlineLine(@RequestParam String lineId) {
-//
-//        sysLineService.lambdaUpdate()
-//                .eq(SysLine::getId, lineId)
-//                .set(SysLine::getStatus, 0)
-//                .update();
-//
-//        sysFavorService.lambdaUpdate()
-//                .eq(SysFavor::getLineId, lineId)
-//                .remove();
-//
-//        return Result.success();
-//    }
+    @PostMapping("/offlineLine")
+    @Transactional(rollbackFor = Exception.class)
+    public Result offlineLine(@RequestParam String lineId) {
+
+        sysLineService.lambdaUpdate()
+                .eq(SysLine::getId, lineId)
+                .set(SysLine::getStatus, 0)
+                .update();
+
+        sysFavorService.lambdaUpdate()
+                .eq(SysFavor::getLineId, lineId)
+                .remove();
+
+        return Result.success();
+    }
 
     /** 编辑收藏 */
     @PostMapping("editSysFavor")
