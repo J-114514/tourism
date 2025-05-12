@@ -13,12 +13,7 @@ import java.util.List;
 public class SysFavorServiceImpl extends ServiceImpl<SysFavorMapper, SysFavor> implements SysFavorService {
     @Autowired
     SysFavorMapper sysFavorMapper;
-//    @Override
-//    public Page<SysFavor> page(SysFavor sysFavor) {
-//        SysFavor sysFavor1 = sysFavorMapper.selectById(sysFavor.getUserId());
-//
-//        return null;
-//    }
+
 
 
     @Override
