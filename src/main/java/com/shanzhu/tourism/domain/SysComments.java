@@ -42,6 +42,11 @@ public class SysComments implements Serializable {
     private String attractionsId;
 
     /**
+     * 资讯id
+     */
+    private String forumsId;
+
+    /**
      * 用户id
      */
     private String userId;
@@ -50,6 +55,11 @@ public class SysComments implements Serializable {
      * 头像
      */
     private String avatar;
+
+    /**
+     * 类型
+     */
+    private String type;
 
     /**
      * 创建者

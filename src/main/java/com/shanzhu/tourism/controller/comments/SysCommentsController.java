@@ -8,7 +8,6 @@ import com.shanzhu.tourism.domain.User;
 import com.shanzhu.tourism.enums.ResultCode;
 import com.shanzhu.tourism.service.SysCommentsService;
 import com.shanzhu.tourism.service.UserService;
-import com.shanzhu.tourism.utils.JwtUtil;
 import com.shanzhu.tourism.utils.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,6 +46,28 @@ public class SysCommentsController {
                 .eq(sysComments.getCreateTime() != null,SysComments::getCreateTime,sysComments.getCreateTime())
                 .eq(StringUtils.isNotBlank(sysComments.getUpdateBy()),SysComments::getUpdateBy,sysComments.getUpdateBy())
                 .eq(sysComments.getUpdateTime() != null,SysComments::getUpdateTime,sysComments.getUpdateTime());
+        Page<SysComments> sysCommentsPage = sysCommentsService.page(page, queryWrapper);
+        return Result.success(sysCommentsPage);
+    }
+
+    /**
+     * 分页获取资讯评论
+     */
+    @ApiOperation("分页获取资讯评论")
+    @PostMapping("getSysForumCommentsPage")
+    public Result getSysForumCommentsPage(@RequestBody SysComments sysComments) {
+        Page<SysComments> page = new Page<>(sysComments.getPageNumber(), sysComments.getPageSize());
+        QueryWrapper<SysComments> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda()
+                .eq(StringUtils.isNotBlank(sysComments.getContent()), SysComments::getContent, sysComments.getContent())
+                .eq(StringUtils.isNotBlank(sysComments.getForumsId()), SysComments::getForumsId, sysComments.getForumsId())
+                .eq(StringUtils.isNotBlank(sysComments.getUserId()), SysComments::getUserId, sysComments.getUserId())
+                .eq(StringUtils.isNotBlank(sysComments.getAvatar()), SysComments::getAvatar, sysComments.getAvatar())
+                .eq(StringUtils.isNotBlank(sysComments.getCreateBy()), SysComments::getCreateBy, sysComments.getCreateBy())
+                .eq(sysComments.getCreateTime() != null, SysComments::getCreateTime, sysComments.getCreateTime())
+                .eq(StringUtils.isNotBlank(sysComments.getUpdateBy()), SysComments::getUpdateBy, sysComments.getUpdateBy())
+                .eq(sysComments.getUpdateTime() != null, SysComments::getUpdateTime, sysComments.getUpdateTime())
+                .eq(StringUtils.isNotBlank(sysComments.getType()), SysComments::getType, sysComments.getType());
         Page<SysComments> sysCommentsPage = sysCommentsService.page(page, queryWrapper);
         return Result.success(sysCommentsPage);
     }

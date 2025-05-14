@@ -44,6 +44,7 @@ public class SysLine implements Serializable {
     private String introduce;
 
     private String images;
+    private  int status;
 
     /**
      * 创建者

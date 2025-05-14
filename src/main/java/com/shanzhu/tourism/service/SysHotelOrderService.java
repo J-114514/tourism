@@ -2,14 +2,16 @@ package com.shanzhu.tourism.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shanzhu.tourism.domain.SysHotelOrder;
-import com.shanzhu.tourism.domain.SysHotelOrder;
 
+import java.util.List;
+
+//extends IService<SysHotelOrder>
 public interface SysHotelOrderService extends IService<SysHotelOrder> {
-    SysHotelOrder getById(String id);
 
-    boolean save(SysHotelOrder sysHotelOrder);
+     List<SysHotelOrder> getOrderById(String id);
 
-    boolean updateSysHotelOrder(SysHotelOrder sysHotelOrder);
+      int saveOrder(SysHotelOrder sysHotelOrder);
+    int delete(String id);
 
-    boolean removeSysHotelOrder(String id);
+    int update(SysHotelOrder sysHotelOrder);
 }
