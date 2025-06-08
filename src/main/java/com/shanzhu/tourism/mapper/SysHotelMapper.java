@@ -14,12 +14,12 @@ public interface SysHotelMapper extends BaseMapper<SysHotel> {
     SysHotel selectSysHotelById(@Param("id") String id);
 
     // 添加资讯
-    @Insert("INSERT INTO sys_hotel (id,arrtractions_id,arrtractions,name,address,introduce,image,state,create_by,create_time,update_by,update_time) VALUES (#{id},#{arrtractions_id},#{arrtractions},#{name},#{address},#{introduce},#{image},#{state},#{createBy},NOW(),#{updateTy}, NOW())")
+    @Insert("INSERT INTO sys_hotel (id,attractions_id,attractions,name,address,introduce,images,state,create_by,create_time,update_by,update_time) VALUES (#{id},#{attractions_id},#{attractions},#{name},#{address},#{introduce},#{images},#{state},#{createBy},NOW(),#{updateTy}, NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertSysHotel(SysHotel sysHotel);
 
     // 编辑资讯
-    @Update("UPDATE sys_hotel SET name = #{name}, introduce = #{introduce},image = #{image},state = #{state},update_time = NOW()" +
+    @Update("UPDATE sys_hotel SET name = #{name}, introduce = #{introduce},images = #{image},state = #{state},update_time = NOW()" +
             "WHERE id = #{id}")
     int updateSysHotelById(SysHotel sysHotel);
 

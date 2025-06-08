@@ -27,7 +27,7 @@ public class SysForumServiceImpl extends ServiceImpl<SysForumMapper, SysForum> i
 
     @Override
     public boolean updateSysForum(SysForum sysForum) {
-        return this.baseMapper.updateSysForumById(sysForum.getId(), sysForum.getTitle(), sysForum.getContent()) > 0;
+        return this.baseMapper.updateSysForumById(sysForum.getId(), sysForum.getTitle(), sysForum.getContent(),sysForum.getUpdateBy()) > 0;
     }
 
     @Override

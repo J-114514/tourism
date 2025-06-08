@@ -1,5 +1,9 @@
 # 数据源配置
 spring:
+#  mvc:
+#    static-path-pattern: /img/**
+#    resources:
+#      static-locations: file:./img/
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -8,11 +12,11 @@ spring:
       username: root
       password: 12345
       # 初始连接数
-      initialSize: 5
+      initialSize: 10
       # 最小连接池数量
-      minIdle: 10
+      minIdle: 20
       # 最大连接池数量
-      maxActive: 20
+      maxActive: 200
       # 配置获取连接等待超时的时间
       maxWait: 60000
       # 配置连接超时时间
@@ -65,11 +69,11 @@ spring:
     lettuce:
       pool:
         # 连接池中的最小空闲连接
-        min-idle: 0
+        min-idle: 2
         # 连接池中的最大空闲连接
-        max-idle: 8
+        max-idle: 16
         # 连接池的最大数据库连接数
-        max-active: 8
+        max-active: 16
         # #连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
 

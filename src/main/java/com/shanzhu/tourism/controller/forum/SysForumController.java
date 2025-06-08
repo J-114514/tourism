@@ -11,8 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import com.shanzhu.tourism.utils.JwtUtil;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 资讯controller
@@ -20,13 +22,15 @@ import javax.annotation.Resource;
 @Controller
 @ResponseBody
 @RequestMapping("forum")
-@Api(value = "SysForumController",tags = "旅游资讯相关接口")
+@Api(value = "SysForumController", tags = "旅游资讯相关接口")
 public class SysForumController {
 
     @Resource
     private SysForumService sysForumService;
 
-    /** 分页获取资讯 */
+    /**
+     * 分页获取资讯
+     */
     @ApiOperation("分页获取资讯")
     @PostMapping("getSysForumPage")
     public Result getSysForumPage(@RequestBody SysForum sysForum) {
@@ -44,17 +48,37 @@ public class SysForumController {
         return Result.success(sysForumPage);
     }*/
 
-    /** 根据id获取资讯 */
+    /**
+     * 根据id获取资讯
+     */
     @ApiOperation("根据id获取资讯")
     @GetMapping("getSysForumById")
-    public Result getSysForumById(@RequestParam("id")String id) {
+    public Result getSysForumById(@RequestParam("id") String id) {
         SysForum sysForum = sysForumService.getById(id);
         return Result.success(sysForum);
     }
-    /** 添加资讯 */
+
+    /**
+     * 添加资讯
+     */
     @ApiOperation("添加资讯")
     @PostMapping("saveSysForum")
-    public Result saveSysForum(@RequestBody SysForum sysForum) {
+    /*public Result saveSysForum(@RequestBody SysForum sysForum, @RequestParam("userId") String userId) {
+        sysForum.setCreateBy(userId);
+        sysForum.setUpdateBy(userId);
+        boolean save = sysForumService.save(sysForum);
+        if (save) {
+            return Result.success();
+        } else {
+            return Result.fail(ResultCode.COMMON_DATA_OPTION_ERROR.getMessage());
+        }
+    }*/
+    public Result saveSysForum(@RequestBody SysForum sysForum, HttpServletRequest request) {
+        String userId = JwtUtil.getUserIdByToken(request);
+
+        sysForum.setCreateBy(userId);
+        sysForum.setUpdateBy(userId);
+
         boolean save = sysForumService.save(sysForum);
         if (save) {
             return Result.success();
@@ -63,10 +87,16 @@ public class SysForumController {
         }
     }
 
-    /** 编辑资讯*/
+    /**
+     * 编辑资讯
+     */
     @ApiOperation("编辑资讯")
     @PostMapping("editSysForum")
-    public Result editSysForum(@RequestBody SysForum sysForum) {
+    public Result editSysForum(@RequestBody SysForum sysForum,HttpServletRequest request) {
+        String userId = JwtUtil.getUserIdByToken(request);
+
+        sysForum.setCreateBy(userId);
+        sysForum.setUpdateBy(userId);
         boolean update = sysForumService.updateSysForum(sysForum);
         if (update) {
             return Result.success();
@@ -75,10 +105,12 @@ public class SysForumController {
         }
     }
 
-    /** 删除资讯*/
+    /**
+     * 删除资讯
+     */
     @ApiOperation("删除资讯")
     @GetMapping("removeSysForum")
-    public Result removeSysForum(@RequestParam("ids")String ids) {
+    public Result removeSysForum(@RequestParam("ids") String ids) {
         if (StringUtils.isNotBlank(ids)) {
             String[] asList = ids.split(",");
             for (String id : asList) {

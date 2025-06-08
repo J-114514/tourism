@@ -28,6 +28,10 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+#  mvc:
+#    static-path-pattern: /img/**
+#    resources:
+#      static-locations: file:./img/
 # myBatis-plus配置
 mybatis-plus:
   global-config:

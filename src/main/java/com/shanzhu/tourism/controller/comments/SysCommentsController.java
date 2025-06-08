@@ -31,21 +31,23 @@ public class SysCommentsController {
     @Resource
     private UserService userService;
 
-    /** 分页获取评论 */
+    /**
+     * 分页获取评论
+     */
     @ApiOperation("分页获取评论")
     @PostMapping("getSysCommentsPage")
     public Result getSysCommentsPage(@RequestBody SysComments sysComments) {
-        Page<SysComments> page = new Page<>(sysComments.getPageNumber(),sysComments.getPageSize());
+        Page<SysComments> page = new Page<>(sysComments.getPageNumber(), sysComments.getPageSize());
         QueryWrapper<SysComments> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
-                .eq(StringUtils.isNotBlank(sysComments.getContent()),SysComments::getContent,sysComments.getContent())
-                .eq(StringUtils.isNotBlank(sysComments.getAttractionsId()),SysComments::getAttractionsId,sysComments.getAttractionsId())
-                .eq(StringUtils.isNotBlank(sysComments.getUserId()),SysComments::getUserId,sysComments.getUserId())
-                .eq(StringUtils.isNotBlank(sysComments.getAvatar()),SysComments::getAvatar,sysComments.getAvatar())
-                .eq(StringUtils.isNotBlank(sysComments.getCreateBy()),SysComments::getCreateBy,sysComments.getCreateBy())
-                .eq(sysComments.getCreateTime() != null,SysComments::getCreateTime,sysComments.getCreateTime())
-                .eq(StringUtils.isNotBlank(sysComments.getUpdateBy()),SysComments::getUpdateBy,sysComments.getUpdateBy())
-                .eq(sysComments.getUpdateTime() != null,SysComments::getUpdateTime,sysComments.getUpdateTime());
+                .eq(StringUtils.isNotBlank(sysComments.getContent()), SysComments::getContent, sysComments.getContent())
+                .eq(StringUtils.isNotBlank(sysComments.getAttractionsId()), SysComments::getAttractionsId, sysComments.getAttractionsId())
+                .eq(StringUtils.isNotBlank(sysComments.getUserId()), SysComments::getUserId, sysComments.getUserId())
+                .eq(StringUtils.isNotBlank(sysComments.getAvatar()), SysComments::getAvatar, sysComments.getAvatar())
+                .eq(StringUtils.isNotBlank(sysComments.getCreateBy()), SysComments::getCreateBy, sysComments.getCreateBy())
+                .eq(sysComments.getCreateTime() != null, SysComments::getCreateTime, sysComments.getCreateTime())
+                .eq(StringUtils.isNotBlank(sysComments.getUpdateBy()), SysComments::getUpdateBy, sysComments.getUpdateBy())
+                .eq(sysComments.getUpdateTime() != null, SysComments::getUpdateTime, sysComments.getUpdateTime());
         Page<SysComments> sysCommentsPage = sysCommentsService.page(page, queryWrapper);
         return Result.success(sysCommentsPage);
     }
@@ -72,15 +74,19 @@ public class SysCommentsController {
         return Result.success(sysCommentsPage);
     }
 
-    /** 根据id获取评论 */
+    /**
+     * 根据id获取评论
+     */
     @ApiOperation("根据id获取评论")
     @GetMapping("getSysCommentsById")
-    public Result getSysCommentsById(@RequestParam("id")String id) {
+    public Result getSysCommentsById(@RequestParam("id") String id) {
         SysComments sysComments = sysCommentsService.getById(id);
         return Result.success(sysComments);
     }
 
-    /** 添加评论 */
+    /**
+     * 添加评论
+     */
     @ApiOperation("添加评论")
     @PostMapping("saveSysComments")
     public Result saveSysComments(@RequestBody SysComments sysComments) {
@@ -94,7 +100,9 @@ public class SysCommentsController {
         }
     }
 
-    /** 编辑评论 */
+    /**
+     * 编辑评论
+     */
     @ApiOperation("编辑评论")
     @PostMapping("editSysComments")
     public Result editSysComments(@RequestBody SysComments sysComments) {
@@ -106,10 +114,12 @@ public class SysCommentsController {
         }
     }
 
-    /** 删除评论 */
+    /**
+     * 删除评论
+     */
     @ApiOperation("删除评论")
     @GetMapping("removeSysComments")
-    public Result removeSysComments(@RequestParam("ids")String ids) {
+    public Result removeSysComments(@RequestParam("ids") String ids) {
         if (StringUtils.isNotBlank(ids)) {
             String[] asList = ids.split(",");
             for (String id : asList) {

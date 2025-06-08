@@ -22,14 +22,14 @@ public interface SysForumMapper extends BaseMapper<SysForum> {
     SysForum selectSysForumById(@Param("id") String id);
 
     // 添加资讯
-    @Insert("INSERT INTO sys_forum (id,title, content, create_time) VALUES (#{id},#{title}, #{content}, NOW())")
+    @Insert("INSERT INTO sys_forum (id,title, content, create_by,update_by,create_time,update_time) VALUES (#{id},#{title}, #{content},#{createBy},#{updateBy}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertSysForum(SysForum sysForum);
 
     // 编辑资讯
-    @Update("UPDATE sys_forum SET title = #{title}, content = #{content}, update_time = NOW()" +
+    @Update("UPDATE sys_forum SET title = #{title}, content = #{content},update_by = #{updateBy}, update_time = NOW()" +
             "WHERE id = #{id}")
-    int updateSysForumById(@Param("id") String id, @Param("title") String title, @Param("content") String content);
+    int updateSysForumById(@Param("id") String id, @Param("title") String title, @Param("content") String content,@Param("updateBy") String updateBy);
 
     // 根据 ID 删除资讯
     @Delete("DELETE FROM sys_forum WHERE id = #{id}")
